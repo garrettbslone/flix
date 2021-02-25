@@ -45,7 +45,6 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.player);
 
         movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
-        Log.d("MovieDetalsAc", String.format("Showing details for %s", movie.getTitle()));
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(String.format(VIDEOS_URL, movie.getMovieId()), new JsonHttpResponseHandler() {
@@ -87,6 +86,9 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
                                                 YouTubePlayer youTubePlayer, boolean b) {
                 // do any work here to cue video, play video, etc.
                 youTubePlayer.cueVideo(youtubeKey);
+                if (movie.getVoteAvg() >= 5) {
+                    youTubePlayer.play();
+                }
             }
 
             @Override
