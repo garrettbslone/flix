@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.garrett.flix.MovieDetailsActivity;
 import com.garrett.flix.R;
 import com.garrett.flix.models.Movie;
@@ -100,7 +101,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(wrapOverview(movie.getOverview()));
-            Glide.with(context).load(img).placeholder(R.drawable.placeholder).into(ivPoster);
+            Glide.with(context)
+                    .load(img)
+                    .transform(new RoundedCorners(25))
+                    .placeholder(R.drawable.placeholder)
+                    .into(ivPoster);
         }
 
         @Override
