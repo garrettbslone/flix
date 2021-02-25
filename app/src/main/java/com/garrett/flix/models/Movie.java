@@ -6,30 +6,40 @@
  */
 package com.garrett.flix.models;
 
+import android.content.Intent;
 import android.os.Build;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Parcel
 public class Movie {
-    private static final int OVERVIEW_MAX_WORDS_PORT = 30;
-    private static final int OVERVIEW_MAX_WORDS_LAND = 65;
-
     String backdropPath;
     String posterPath;
     String title;
     String overview;
+
+    Integer movieId;
+    Double voteAvg;
+    Double popularity;
+
+    public Movie () {}
 
     public Movie(JSONObject jsonObject) throws JSONException {
         backdropPath = jsonObject.getString("backdrop_path");
         posterPath = jsonObject.getString("poster_path");
         title = jsonObject.getString("title");
         overview = jsonObject.getString("overview");
+
+        movieId = jsonObject.getInt("id");
+        voteAvg = jsonObject.getDouble("vote_average");
+        popularity = jsonObject.getDouble("popularity");
     }
 
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray) throws JSONException {
@@ -53,21 +63,19 @@ public class Movie {
         return title;
     }
 
-    public String getOverview (boolean isPortrait) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String[] words = overview.split(" ");
-            int end = isPortrait ? Math.min(words.length, OVERVIEW_MAX_WORDS_PORT) :
-                      Math.min(words.length, OVERVIEW_MAX_WORDS_LAND);
+    public String getOverview () {
+        return overview;
+    }
 
-            String shortened = String.join(" ", Arrays.copyOfRange(words, 0, end));
+    public Integer getMovieId () {
+        return movieId;
+    }
 
-            if (shortened.length() <= overview.length()) {
-                shortened += shortened.charAt(shortened.length() - 1) == '.' ? ".." : "...";
-            }
+    public Double getVoteAvg () {
+        return voteAvg;
+    }
 
-            return shortened;
-        } else {
-            return overview;
-        }
+    public Double getPopularity () {
+        return popularity;
     }
 }
