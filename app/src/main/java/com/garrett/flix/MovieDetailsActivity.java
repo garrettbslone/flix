@@ -85,9 +85,11 @@ public class MovieDetailsActivity extends YouTubeBaseActivity {
             public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                                 YouTubePlayer youTubePlayer, boolean b) {
                 // do any work here to cue video, play video, etc.
-                youTubePlayer.cueVideo(youtubeKey);
-                if (movie.getVoteAvg() >= 5) {
-                    youTubePlayer.play();
+                Log.i("youtubeplay", movie.getTitle() + ": _- " + movie.getVoteAvg());
+                if (movie.getVoteAvg() >= 5.0) {
+                    youTubePlayer.loadVideo(youtubeKey);
+                } else {
+                    youTubePlayer.cueVideo(youtubeKey);
                 }
             }
 
